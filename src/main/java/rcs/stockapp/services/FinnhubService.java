@@ -96,7 +96,7 @@ public class FinnhubService {
 
     public List<StockResponse> searchStocks(String search, int limit) {
         return stocksSearchableMap
-                .matchBySubstring(search.toLowerCase(), search.length() > 3 ? search.length() - 1 : search.length())
+                .searchBySubstring(search.toLowerCase(), search.length() > 3 ? search.length() - 1 : search.length())
                 .stream()
                 .limit(limit)
                 .collect(Collectors.toList());

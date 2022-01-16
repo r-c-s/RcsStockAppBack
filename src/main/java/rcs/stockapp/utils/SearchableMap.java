@@ -11,7 +11,7 @@ public class SearchableMap<K, V> {
     // maps search terms to a set of keys in the map above
     private final Trie<Set<K>> trie = new Trie<>();
 
-    // extracts search terms from the value V
+    // extracts search terms to be indexed in the trie
     private final Function<V, Collection<String>> searchTermsExtractor;
 
     public SearchableMap(Function<V, Collection<String>> searchTermsExtractor) {
@@ -28,7 +28,7 @@ public class SearchableMap<K, V> {
         return map.get(key);
     }
 
-    public List<V> matchBySubstring(String search, int minLength) {
+    public List<V> searchBySubstring(String search, int minLength) {
         return trie.matchBySubstring(search, minLength)
                 .stream()
                 .map(Trie.SearchResult::value)
