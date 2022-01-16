@@ -67,7 +67,7 @@ public class FinnhubService {
         this.exchanges = exchanges;
         this.finnhubApiToken = finnhubApiToken;
         this.restTemplate = restTemplate;
-        populateStocksTrie();
+        populateStocksSearchableMap();
     }
 
     public boolean stockExists(String stock) {
@@ -110,7 +110,7 @@ public class FinnhubService {
         return finnhubBaseUrl + "/stock/symbol?exchange=" + exchange + "&token=" + finnhubApiToken;
     }
 
-    private void populateStocksTrie() {
+    private void populateStocksSearchableMap() {
         exchanges.forEach(exchange -> {
             logger.info("Fetching stocks from the exchange " + exchange);
 
