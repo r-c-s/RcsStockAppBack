@@ -60,7 +60,7 @@ docker-compose build --no-cache && docker-compose up web
 ##### First, register on Auth service
 
 <pre>
-curl -X POST [AUTH_URL]/register -d "username=<USERNAME>&password=<PASSWORD>"
+curl -X POST [AUTH_URL]/register -d "username=USERNAME&password=PASSWORD"
 </pre>
 
 ##### Then login on Auth service to obtain the cookies
