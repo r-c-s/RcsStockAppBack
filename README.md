@@ -29,7 +29,7 @@ mvn test
 </pre>
 
 ##### Run integration tests 
-MongoDB and Auth (and its dependencies) must be running. A user USERNAME with password PASSWORD must exist; follow the steps below to register.
+MongoDB and Auth (and its dependencies) must be running. A user RCS_STOCKS_TEST_USERNAME with password RCS_STOCKS_TEST_PASSWORD must exist; follow the steps below to register.
 
 <pre>
 mvn clean test-compile failsafe:integration-test
@@ -60,13 +60,13 @@ docker-compose build --no-cache && docker-compose up web
 ##### First, register on Auth service
 
 <pre>
-curl -X POST <AUTH_URL>/register -d "username=<USERNAME>&password=<PASSWORD>"
+curl -X POST [AUTH_URL]/register -d "username=<USERNAME>&password=<PASSWORD>"
 </pre>
 
 ##### Then login on Auth service to obtain the cookies
 
 <pre>
-curl -X POST <AUTH_URL>/login -d "username=USERNAME&password=PASSWORD" -c cookies
+curl -X POST [AUTH_URL]/login -d "username=USERNAME&password=PASSWORD" -c cookies
 </pre>
 
 ##### Follow a stock
@@ -90,5 +90,5 @@ curl -b cookies -X GET host:port/my-stocks
 ##### Search for stocks by symbol or description
 
 <pre>
-curl -b cookies -X GET host:port/stocks?search=IB
+curl -b cookies -X GET host:port/stocks?search=MICRO&limit=10
 </pre>
