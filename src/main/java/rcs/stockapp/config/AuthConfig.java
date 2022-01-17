@@ -32,7 +32,7 @@ public class AuthConfig {
 
     @Bean
     public AuthenticationFilter getAuthenticationFilter() {
-        return new AuthenticationFilter(new RequestAuthenticationService(context.getBean(AuthService.class)));
+        return new AuthenticationFilter(context.getBean(RequestAuthenticationService.class));
     }
 
     @Bean
