@@ -38,6 +38,9 @@ public class StockPriceWebSocketNotifier {
         this.template = template;
     }
 
+    /**
+     * TODO: consider optimizing this to not check for price updates outside trading hours
+     */
     @Scheduled(fixedRateString = "${web-socket.stock-price-notify-rate}")
     public void notifyStockPriceChanges() {
         logger.info("Notifying websocket subscribers");
