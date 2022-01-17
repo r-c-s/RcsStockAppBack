@@ -132,7 +132,7 @@ public class Trie<T> {
         return matchBySubstring(search, search.length());
     }
     public List<SearchResult<T>> matchBySubstring(String search, int minLength) {
-        if (search.length() == 0) {
+        if (search.length() == 0 || minLength < 1 || minLength > search.length()) {
             throw new IllegalArgumentException();
         }
 
@@ -281,12 +281,9 @@ public class Trie<T> {
                     && consecutiveMatches < search.length()
                     && nextNode.string().equals(Character.toString(search.charAt(consecutiveMatches)));
 
-            Node<T> nextRightOfLastMatchingCharacter;
-            if (!endMatch && !nextNodeMatches) {
-                nextRightOfLastMatchingCharacter = nextNode;
-            } else {
-                nextRightOfLastMatchingCharacter = rightOfLastMatchingCharacter;
-            }
+            Node<T> nextRightOfLastMatchingCharacter = !endMatch && !nextNodeMatches
+                    ? nextNode
+                    : rightOfLastMatchingCharacter;
 
             int newConsecutiveMatches = !endMatch && nextNodeMatches
                     ? consecutiveMatches + 1

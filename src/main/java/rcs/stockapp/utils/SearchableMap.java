@@ -33,6 +33,7 @@ public class SearchableMap<K, V> {
                 .stream()
                 .map(Trie.SearchResult::value)
                 .flatMap(Collection::stream)
+                .distinct()
                 .map(map::get)
                 .collect(Collectors.toList());
     }

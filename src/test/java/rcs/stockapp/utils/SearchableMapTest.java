@@ -25,7 +25,7 @@ public class SearchableMapTest {
 
         Dummy dummy0 = new Dummy("abc", "def", "ghi");
         Dummy dummy1 = new Dummy("abc", "jkl", "mno");
-        Dummy dummy2 = new Dummy("abz", "pqr", "stu");
+        Dummy dummy2 = new Dummy("abz", "pqr", "abc");
 
         target.put(1, dummy0); // should get overriden and unindexed below
         target.put(1, dummy1);
