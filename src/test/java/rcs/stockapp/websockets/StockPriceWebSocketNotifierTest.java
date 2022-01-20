@@ -6,10 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import rcs.stockapp.models.StockPrice;
-import rcs.stockapp.repositories.UserStocksRepository;
 import rcs.stockapp.services.FinnhubService;
 
-import java.util.Map;
 import java.util.Set;
 
 import static org.mockito.Mockito.*;
@@ -17,7 +15,6 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class StockPriceWebSocketNotifierTest {
 
-    private UserStocksRepository userStocksRepository;
     private WebSocketSessionRegistry webSocketSessionRegistry;
     private FinnhubService finnhubService;
     private SimpMessagingTemplate template;
@@ -26,12 +23,10 @@ public class StockPriceWebSocketNotifierTest {
 
     @Before
     public void setup() {
-        userStocksRepository = mock(UserStocksRepository.class);
         webSocketSessionRegistry = mock(WebSocketSessionRegistry.class);
         finnhubService = mock(FinnhubService.class);
         template = mock(SimpMessagingTemplate.class);
         target = new StockPriceWebSocketNotifier(
-                userStocksRepository,
                 webSocketSessionRegistry,
                 finnhubService,
                 template);
@@ -40,9 +35,6 @@ public class StockPriceWebSocketNotifierTest {
     @Test
     public void testNotifyStockPriceChanges() {
         // Arrange
-        when(userStocksRepository.getStocksWithFollowers())
-                .thenReturn(Map.of("IBM", 1L, "GOOGL", 2L, "AAPL", 3L));
-
         when(webSocketSessionRegistry.getStocksWithSubscribers())
                 .thenReturn(Set.of("IBM", "AAPL"));
 
@@ -58,9 +50,5 @@ public class StockPriceWebSocketNotifierTest {
         // Assert
         verify(template, times(1)).convertAndSend("/topic/stocks/IBM", ibmStockPrice);
         verify(template, times(1)).convertAndSend("/topic/stocks/AAPL", aaplStockPrice);
-
-        // no subscribers
-        verify(finnhubService, never()).getPrice("GOOGL");
-        verify(template, never()).convertAndSend(eq("/topic/stocks/GOOGL"), any(StockPrice.class));
     }
 }

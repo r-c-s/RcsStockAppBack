@@ -22,18 +22,15 @@ public class StockPriceWebSocketNotifier {
 
     private final Map<String, StockPrice> lastStockPrice = new HashMap<>();
 
-    private final UserStocksRepository userStocksRepository;
     private final WebSocketSessionRegistry webSocketSessionRegistry;
     private final FinnhubService finnhubService;
     private final SimpMessagingTemplate template;
 
     public StockPriceWebSocketNotifier(
-            UserStocksRepository userStocksRepository,
             WebSocketSessionRegistry webSocketSessionRegistry,
             FinnhubService finnhubService,
             SimpMessagingTemplate template) {
         this.webSocketSessionRegistry = webSocketSessionRegistry;
-        this.userStocksRepository = userStocksRepository;
         this.finnhubService = finnhubService;
         this.template = template;
     }
@@ -45,21 +42,8 @@ public class StockPriceWebSocketNotifier {
     public void notifyStockPriceChanges() {
         logger.info("Notifying websocket subscribers");
 
-        Collection<String> stocksWithSubscribers = webSocketSessionRegistry.getStocksWithSubscribers();
-
-        userStocksRepository.getStocksWithFollowers()
-                .keySet()
+        webSocketSessionRegistry.getStocksWithSubscribers()
                 .stream()
-                .filter(stock -> {
-                    boolean hasListener = stocksWithSubscribers.contains(stock);
-                    if (hasListener) {
-                        logger.info("There are subscribers of " + stock + "; fetching price");
-                        return true;
-                    } else {
-                        logger.info("There are no subscribers of " + stock + "; not fetching price");
-                        return false;
-                    }
-                })
                 .map(finnhubService::getPrice)
                 .filter(stockPrice -> {
                     boolean isEqualToLastPrice = stockPrice.equals(lastStockPrice.get(stockPrice.symbol()));
