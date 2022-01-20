@@ -40,19 +40,13 @@ mvn clean test-compile failsafe:integration-test
 ##### Run application
 
 <pre>
-java -jar target/StockApp-1.0-SNAPSHOT.jar
+java -jar target/StockApp-1.0-SNAPSHOT.jar --app.properties=PROPERTIES_FILE
 </pre>
 
-or
+Where PROPERTIES_FILE is a text file containing FinnHub service's token:
 
 <pre>
-mvn spring-boot:run
-</pre>
-
-or
-
-<pre>
-docker-compose build --no-cache && docker-compose up web
+services.finnhub.token=TOKEN
 </pre>
 
 <br>

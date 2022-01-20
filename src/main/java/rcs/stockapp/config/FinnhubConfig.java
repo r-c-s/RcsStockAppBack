@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 import rcs.stockapp.services.FinnhubService;
 
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @Configuration
+@PropertySource("file:${app.properties}")
 public class FinnhubConfig {
 
     @Autowired
